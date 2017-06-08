@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'general',
     'puja',
+    'django.contrib.humanize',
     'puja_inversa'
 ]
 
@@ -112,7 +113,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 TIME_ZONE = 'UTC'
 
