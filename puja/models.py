@@ -1,6 +1,8 @@
 from django.db import models
 from general.models import Articulo
-import settings
+from datetime import date
+from django.contrib.auth.models import User
+
 # Create your models here.
 
 
@@ -10,11 +12,11 @@ ESTADOS = (
 )
 
 class Puja(models.Model):
-    fecha_cierre = models.DateField(input_formats=settings.DATE_INPUT_FORMATS)
+    fecha_cierre = models.DateField(default=date.today)
     estado = models.CharField(max_length=10, choices=ESTADOS)
     articulo = models.ForeignKey(Articulo)
 
 class Ofertantes_Puja(models.Model):
     comprador = models.ForeignKey(User)
-    puja_inversa = models.ForeignKey(Puja_Inversa)
+    puja = models.ForeignKey(Puja)
     valor = models.DecimalField(max_digits = 12, decimal_places = 2)

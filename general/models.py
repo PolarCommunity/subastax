@@ -1,15 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import date
 
 # Create your models here.
+
 class Direccion(models.Model):
     user = models.OneToOneField(User)
-    sede = models.CharField(max_length=50)
+    direccion = models.CharField(max_length=50)
+
 
 class Articulo(models.Model):
     nombre = models.CharField(max_length=50)
     descripcion = models.CharField(max_length=254)
-    image = models.ImageField(upload_to='articulo/', null=True, blank=True, verbose_name=_("Imagen"))
+    image = models.ImageField(upload_to='articulo/', null=True, blank=True, verbose_name=("Imagen"))
     cantidad = models.IntegerField()
     precio = models.DecimalField(max_digits = 12, decimal_places = 2)
     valor_de_participacion = models.DecimalField(max_digits = 12, decimal_places = 2)

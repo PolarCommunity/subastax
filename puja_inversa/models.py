@@ -1,6 +1,7 @@
 from django.db import models
 from general.models import Articulo
-import settings
+from datetime import date
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -10,8 +11,8 @@ ESTADOS = (
     ('Inactivo', 'Inactivo')
 )
 class Puja_Inversa(models.Model):
-    fecha_inicio = models.DateField(input_formats=settings.DATE_INPUT_FORMATS)
-    fecha_cierre = models.DateField(input_formats=settings.DATE_INPUT_FORMATS)
+    fecha_inicio = models.DateField(default=date.today)
+    fecha_cierre = models.DateField(default=date.today)
     estado = models.CharField(max_length=20, choices=ESTADOS)
     articulo = models.ForeignKey(Articulo)
 
