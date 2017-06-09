@@ -2,8 +2,25 @@
 {% load static %}
 {% block container %}
 <div class="jumbotron" >
-  <h1>Offer 2 Sell</h1>
-  <p>Oferta lo que tienes, tu decides que es lo justo!!!</p>
-  <p><a class="btn btn-primary btn-lg">Subasta algo ahora!</a></p>
+  <div class="row">
+    <h1>Offer 2 Sell</h1>
+    <p>Oferta lo que tienes, tu decides que es lo justo!!!</p>
+  </div>
+<br><br><br>
+  <div class="row">
+    <div class="col-md-6" align="right">
+      <p><a href="{% url 'CrearArticulo' %}"class="btn btn-primary btn-lg">Subasta algo ahora!</a></p>
+
+    </div>
+    <div class="col-md-6" align="left">
+      <p><a href="{% url 'CrearArticuloI' %}"class="btn btn-primary btn-lg">Solicita algo ahora!</a></p>
+      </div>
+
+  </div>
+
+
+
+
+
 </div>
 {% endblock %}

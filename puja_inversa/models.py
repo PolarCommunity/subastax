@@ -13,6 +13,7 @@ ESTADOS = (
 class Puja_Inversa(models.Model):
     fecha_inicio = models.DateField(default=date.today)
     fecha_cierre = models.DateField(default=date.today)
+    pide_pujas = models.ForeignKey(User)
     estado = models.CharField(max_length=20, choices=ESTADOS)
     articulo = models.ForeignKey(Articulo)
 

@@ -1,0 +1,47 @@
+{% extends 'base.html'%}
+{% block container %}
+{% load static %}
+<div class="row">
+  <div class="col-md-6">
+    <h1>Solicitud de articulos</h1>
+  </div>
+  <div class="col-md-6" align="right">
+    <br>
+    <a href="{% url 'CrearArticuloI' %}"><button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">Solicitar un articulo</button></a>
+  </div>
+</div>
+{% if not object_list %}
+<h1>Aun no hay pujas</h1>
+
+{% else %}
+
+<hr>
+<br>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+
+      <th >#</th>
+      <th>Nombre</th>
+      <th>Descripcion</th>
+      <th>Fecha de cierre</th>
+      <th align="center">Ver</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in object_list %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{i.articulo.nombre}}</a></td>
+      <td>{{i.articulo.descripcion}}</td>
+      <td>{{i.fecha_cierre}}</td>
+      <td align=""><a  href="{% url 'detalle_puja_inv' i.pk %}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+<hr>
+
+{% endblock %}

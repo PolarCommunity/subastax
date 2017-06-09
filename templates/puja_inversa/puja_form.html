@@ -1,0 +1,35 @@
+{% extends 'base.html'%}
+{% block container%}
+
+{% load crispy_forms_tags %}
+<div>
+  <hr>
+  <h1>Datos para la puja</h1>
+  <hr>
+  <div class="row">
+    <div class="col-md-6">
+      <h4>Nombre: {{articulo.nombre}}</h4>
+      <h4>Descripcion: {{articulo.descripcion}}</h4>
+      <h4>Cantidad: {{articulo.cantidad}}</h4>
+      <h4>Precio: {{articulo.precio}}</h4>
+    </div>
+    <div class="col-md-6">
+      <h4>Envio: {{articulo.valor_de_envio}}</h4>
+      <h4>Participacion: {{articulo.valor_de_participacion}}</h4>
+      <h4>Entrega: {{articulo.tiempo_de_entrega}}</h4>
+    </div>
+  </div>
+  <div class="row">
+    <img style="margin:auto;display:block;height:270px;width:430px;" src="/media/media/{{puja.articulo.image}}"/>
+  </div>
+
+
+  <div class="row">
+    <form method="post">
+      {% csrf_token %}
+      {%crispy form%}
+    </form>
+  </div>
+  <p style="color:white">.</p>
+</div>
+{% endblock %}
