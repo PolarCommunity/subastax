@@ -14,7 +14,7 @@ ESTADOS = (
 class Puja(models.Model):
     fecha_cierre = models.DateField(default=date.today)
     estado = models.CharField(max_length=10, choices=ESTADOS)
-    articulo = models.ForeignKey(Articulo)
+    articulo = models.ForeignKey(Articulo, blank=True, null=True)
 
 class Ofertantes_Puja(models.Model):
     comprador = models.ForeignKey(User)

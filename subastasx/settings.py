@@ -26,6 +26,7 @@ SECRET_KEY = 'z&3@*jog12_+v74qqe&a51wnc#gm*5a!gjlmh4lqtlry$0^2_b'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+LOGIN_URL = '/home'
 
 DATE_INPUT_FORMATS = ('%d-%m-%Y')
 

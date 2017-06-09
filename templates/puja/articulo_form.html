@@ -1,0 +1,15 @@
+{% extends 'base.html'%}
+{% block container%}
+{% load crispy_forms_tags %}
+<div>
+  <hr>
+  <h1>Datos para el articulo</h1>
+  <hr>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {%crispy form%}
+  </form>
+
+  <p style="color:white">.</p>
+</div>
+{% endblock %}

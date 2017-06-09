@@ -20,4 +20,5 @@ from general import urls
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('general.urls')),
+    url(r'^', include('puja.urls')),
 ]

@@ -19,20 +19,31 @@ import time
 
 class ListaPuja(LoginRequiredMixin, ListView):
     model = Puja
-    paginate_by = 50
     login_url = settings.LOGIN_URL
 
+class CrearPuja(LoginRequiredMixin, CreateView):
+    model = Puja
+    form_class = CrearPujaForm
+    login_url = settings.LOGIN_URL
+    template_name = 'puja/puja_form.html'
+    success_url = reverse_lazy('CrearPuja')
+
 @login_required
-def crear_puja(request):
-    if request.method == 'POST':
+def CreatePuja(request, pk):
+    articulo = Articulo.objects.get(pk=pk)
+    if request.method=='POST':
         form = CrearPujaForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('ListaPuja')
-        else:
-            print("no sirve")
+            return HttpResponseRedirect(reverse('ListaPuja'))
     else:
-        form = CreateCuentaForm(initial = {'banco':banco.pk})
-        form.fields['banco'].widget = forms.HiddenInput()
-        context = Context({'form':form})
-        return render(request, 'puja/puja_form.html', context)
+        form = CrearPujaForm(initial = {'articulo':pk})
+        return render(request, 'puja/puja_form.html', {'form':form,'articulo':articulo})
+
+class CrearArticulo(LoginRequiredMixin, CreateView):
+    model = Articulo
+    form_class = CrearArticuloForm
+    login_url = settings.LOGIN_URL
+    template_name = 'puja/articulo_form.html'
+    def get_success_url(self):
+        return reverse('CreatePuja',args=(self.object.id,))
