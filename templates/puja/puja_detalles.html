@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block container %}
+<h1>Datos para la puja</h1>
+<hr>
+<div class="row">
+  <div class="col-md-6">
+    <h4>Nombre: {{puja.articulo.nombre}}</h4>
+    <h4>Descripcion: {{puja.articulo.descripcion}}</h4>
+    <h4>Cantidad: {{puja.articulo.cantidad}}</h4>
+    <h4>Precio: {{puja.articulo.precio}}</h4>
+  </div>
+  <div class="col-md-6">
+    <h4>Envio: {{puja.articulo.valor_de_envio}}</h4>
+    <h4>Participacion: {{puja.articulo.valor_de_participacion}}</h4>
+    <h4>Entrega: {{puja.articulo.tiempo_de_entrega}}</h4>
+  </div>
+</div>
+<div class="row">
+  <img style="margin:auto;display:block;height:270px;width:430px;" src="/media/{{puja.articulo.image}}"/>
+</div>
+<hr>
+<br>
+<h2>Pujar</h2>
+<div class="row">
+  <form method="post">
+    {% csrf_token %}
+    {%crispy form%}
+  </form>
+</div>
+<br>
+<table class="table table-striped table-hover ">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Articulo</th>
+      <th>Cantidad</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in pujantes %}
+    <tr>
+      <td>{{forloop.counter}}</td>
+      <td>{{i.comprador.username}}</td>
+      <td>{{i.valor}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

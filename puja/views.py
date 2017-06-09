@@ -21,29 +21,29 @@ class ListaPuja(LoginRequiredMixin, ListView):
     model = Puja
     login_url = settings.LOGIN_URL
 
-class CrearPuja(LoginRequiredMixin, CreateView):
-    model = Puja
-    form_class = CrearPujaForm
-    login_url = settings.LOGIN_URL
-    template_name = 'puja/puja_form.html'
-    success_url = reverse_lazy('CrearPuja')
+@login_required
+def detalle_puja(request,pk):
+    puja = Puja.objects.get(pk=pk)
+    pujantes = Ofertantes_Puja.objects.filter(puja=pk)
+    if request.method=='POST':
+        form = CrearOfertantes_PujaForm(request.POST, request.FILES)
+    else:
+        form = CrearOfertantes_PujaForm(initial = {'comprador':request.user.pk, 'puja':puja})
+        context = Context({'puja':puja, 'pujantes': pujantes,'form':form })
+        return render(request, 'puja/puja_detalles.html', context)
+
 
 @login_required
-def CreatePuja(request, pk):
-    articulo = Articulo.objects.get(pk=pk)
+def CrearArticulo(request):
     if request.method=='POST':
-        form = CrearPujaForm(request.POST)
+        form = CrearArticuloForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            articulo = form.save()
+            Puja.objects.create(articulo=articulo, estado="Activo", fecha_cierre = request.POST["fecha_cierre"])
             return HttpResponseRedirect(reverse('ListaPuja'))
+        else:
+            form = CrearArticuloForm(request.POST)
+            return render(request, 'puja/articulo_form.html', {'form':form})
     else:
-        form = CrearPujaForm(initial = {'articulo':pk})
-        return render(request, 'puja/puja_form.html', {'form':form,'articulo':articulo})
-
-class CrearArticulo(LoginRequiredMixin, CreateView):
-    model = Articulo
-    form_class = CrearArticuloForm
-    login_url = settings.LOGIN_URL
-    template_name = 'puja/articulo_form.html'
-    def get_success_url(self):
-        return reverse('CreatePuja',args=(self.object.id,))
+        form = CrearArticuloForm()
+        return render(request, 'puja/articulo_form.html', {'form':form})
