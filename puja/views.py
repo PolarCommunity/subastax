@@ -23,15 +23,20 @@ class ListaPuja(LoginRequiredMixin, ListView):
 
 @login_required
 def detalle_puja(request,pk):
-    puja = Puja.objects.get(pk=pk)
-    pujantes = Ofertantes_Puja.objects.filter(puja=pk)
     if request.method=='POST':
         form = CrearOfertantes_PujaForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return returnpuja(request,pk)
     else:
-        form = CrearOfertantes_PujaForm(initial = {'comprador':request.user.pk, 'puja':puja})
-        context = Context({'puja':puja, 'pujantes': pujantes,'form':form })
-        return render(request, 'puja/puja_detalles.html', context)
+        return returnpuja(request,pk)
 
+def returnpuja(request,pk):
+    puja = Puja.objects.get(pk=pk)
+    pujantes = Ofertantes_Puja.objects.filter(puja=pk).order_by('-valor')
+    form = CrearOfertantes_PujaForm(initial = {'comprador':request.user.pk, 'puja':puja})
+    context = Context({'puja':puja, 'pujantes': pujantes,'form':form })
+    return render(request, 'puja/puja_detalles.html', context)
 
 @login_required
 def CrearArticulo(request):
@@ -39,7 +44,7 @@ def CrearArticulo(request):
         form = CrearArticuloForm(request.POST, request.FILES)
         if form.is_valid():
             articulo = form.save()
-            Puja.objects.create(articulo=articulo, estado="Activo", fecha_cierre = request.POST["fecha_cierre"])
+            Puja.objects.create(articulo=articulo, estado="Activo", fecha_cierre = request.POST["fecha_cierre"], pide_pujas=request.user)
             return HttpResponseRedirect(reverse('ListaPuja'))
         else:
             form = CrearArticuloForm(request.POST)

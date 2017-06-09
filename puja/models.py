@@ -13,6 +13,7 @@ ESTADOS = (
 
 class Puja(models.Model):
     fecha_cierre = models.DateField(default=date.today)
+    pide_pujas = models.ForeignKey(User)
     estado = models.CharField(max_length=10, choices=ESTADOS)
     articulo = models.ForeignKey(Articulo, blank=True, null=True)
 
