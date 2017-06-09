@@ -8,5 +8,5 @@ $( function() {
   $( "#id_fecha_inicio" ).datepicker();
 } );
 $( function() {
-  $( "#id_fecha_carnetizacion" ).datepicker();
+  $( "#id_fecha_cierre" ).datepicker();
 } );
