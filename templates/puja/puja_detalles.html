@@ -19,6 +19,9 @@
     <h4>Entrega:<strong> {{puja.articulo.tiempo_de_entrega}}</strong></h4>
     <h4>E-mail: <strong>{{puja.pide_pujas.email}}</strong></h4>
     <h4>Fecha de cierre: <strong>{{puja.fecha_cierre}}</strong></h4>
+    {% if puja.pide_pujas.pk == user.pk and puja.estado == 'Inactivo'%}
+      <h4>Costo de participacion:<strong> {{puja.articulo.valor_de_participacion}}</strong></h4>
+    {% endif %}
   </div>
 </div>
 
@@ -56,7 +59,7 @@
 
     <h4>Estado: <strong>{{puja.estado}}</strong></h4>
   </div>
-    
+
     {% endif %}
     <div class="row">
     <h3>Ofertas</h3>

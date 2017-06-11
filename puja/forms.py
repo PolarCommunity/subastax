@@ -25,7 +25,7 @@ class CrearArticuloForm(ModelForm):
     fecha_cierre = forms.DateField()
     class Meta:
         model = Articulo
-        fields = '__all__'
+        fields = ["nombre","descripcion","cantidad","precio","valor_de_participacion","valor_de_envio","tiempo_de_entrega","fecha_cierre","image"]
     def __init__(self, *args, **kwargs):
         super(CrearArticuloForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()

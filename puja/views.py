@@ -17,7 +17,8 @@ import time
 from datetime import datetime
 from django.utils import timezone
 # Create your views here.
-
+from django.db.models import Max
+# Generates a "SELECT MAX..." statement
 class ListaPuja(LoginRequiredMixin, ListView):
     model = Puja
     login_url = settings.LOGIN_URL
@@ -37,6 +38,11 @@ def detalle_puja(request,pk):
 def returnpuja(request,pk):
     puja = Puja.objects.get(pk=pk)
     if puja.fecha_cierre <= timezone.now().date():
+        ofer = Ofertantes_Puja.objects.filter(puja=puja).aggregate(Max('valor'))
+        try:
+            puja.articulo.valor_de_participacion = round((ofer["valor__max"] * Decimal(0.02)),2)
+        except:
+            puja.articulo.valor_de_participacion = 0
         puja.estado = 'Inactivo'
         puja.save()
     pujantes = Ofertantes_Puja.objects.filter(puja=pk).order_by('-valor')
