@@ -38,7 +38,7 @@
   </div>
 
   <div class="col-md-6">
-    {% if puja.pide_pujas.pk != user.pk %}
+    {% if puja.pide_pujas.pk != user.pk and puja.estado == 'Activo'%}
     <div class="row">
       <div class="col-md-10">
         <h2 align="center">Pujar</h2>
@@ -51,7 +51,12 @@
 
       </div>
     </div>
+    {% else %}
+    <div class="row">
 
+    <h4>Estado: <strong>{{puja.estado}}</strong></h4>
+  </div>
+    
     {% endif %}
     <div class="row">
     <h3>Ofertas</h3>

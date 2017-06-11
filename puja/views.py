@@ -14,12 +14,15 @@ from django import forms
 from django.db.models import Sum
 from django.db.models import Q
 import time
-
+from datetime import datetime
+from django.utils import timezone
 # Create your views here.
 
 class ListaPuja(LoginRequiredMixin, ListView):
     model = Puja
     login_url = settings.LOGIN_URL
+    def get_queryset(self):
+        return Puja.objects.all().order_by('-fecha_cierre')
 
 @login_required
 def detalle_puja(request,pk):
@@ -33,6 +36,9 @@ def detalle_puja(request,pk):
 
 def returnpuja(request,pk):
     puja = Puja.objects.get(pk=pk)
+    if puja.fecha_cierre <= timezone.now().date():
+        puja.estado = 'Inactivo'
+        puja.save()
     pujantes = Ofertantes_Puja.objects.filter(puja=pk).order_by('-valor')
     form = CrearOfertantes_PujaForm(initial = {'comprador':request.user.pk, 'puja':puja})
     context = Context({'puja':puja, 'pujantes': pujantes,'form':form })
