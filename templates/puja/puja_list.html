@@ -3,16 +3,17 @@
 {% load static %}
 <div class="row">
   <div class="col-md-6">
-    <h1>Pujas</h1>
+    <h1>Subasta de articulos</h1>
   </div>
+  <div class="col-md-6" align="right">
+    <br>
+    <a href="{% url 'CrearArticulo' %}"><button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">Subastar un articulo</button></a>
+  </div>
+</div>
 {% if not object_list %}
   <h1>Aun no hay pujas</h1>
 {% else %}
-<div class="col-md-6" align="right">
-  <br>
-  <a href="{% url 'CrearArticulo' %}"><button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">Subastar un articulo</button></a>
-</div>
-</div>
+
 <hr>
 <table class="table table-striped table-hover">
   <thead>
