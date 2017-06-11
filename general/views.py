@@ -20,15 +20,16 @@ def Register(request):
         return render(request, 'usuario/register.html')
     elif request.method == "POST":
             username = request.POST["username"]
-            password = request.POST["password"]
+            password = "123prueba"
             email = request.POST["email"]
             auth.models.User.objects.create_user(username, email, password).save()
             user = User.objects.get(username=request.POST['username'])
             user.first_name=request.POST['nombres']
             user.last_name=request.POST['apellidos']
+            Direccion.objects.create(user=user,direccion=request.POST['direccion'])
+            Tarjeta.objects.create(usuario=user,no_de_tarjeta=request.POST['tarjeta'])
             user.save()
-            auth.login(request, user)
-            return render(request, "home.html")
+            return render(request, "password.html")
 
 
 
@@ -45,6 +46,9 @@ def Home(request):
             user = auth.authenticate(username=username, password=password)
             if user is not None:
                 if user.is_active:
+                    if(user.last_login == None):
+                        auth.login(request, user)
+                        return redirect(reverse('ChangePassword'))
                     auth.login(request, user)
                     next = "/home"
                     if "next" in request.GET:
@@ -56,6 +60,22 @@ def Home(request):
                     return render(request, "usuario/login.html", {"mensaje": "Tu cuenta ha sido deshabilitada"})
             else:
                 return render(request, "usuario/login.html", {"mensaje": "Usuario o contraseña incorrecta"})
+
+@login_required
+def ChangePassword(request):
+    if request.method == 'POST':
+        if request.POST['password1'] == request.POST['password2']:
+            password = request.POST['password1']
+            user = User.objects.get(username=str(request.user.username))
+            if user.is_active:
+                user.set_password(password)
+                user.save()
+                user = auth.authenticate(username=request.user.username, password=password)
+                return redirect(reverse('home'))
+        else:
+            return render(request, 'change-password.html')
+    else:
+        return render(request, 'change-password.html')
 
 @login_required
 def Logout(request):

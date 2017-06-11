@@ -20,6 +20,5 @@ class Articulo(models.Model):
     tiempo_de_entrega = models.IntegerField()
 
 class Tarjeta(models.Model):
-    no_de_tarjeta = models  .CharField(max_length=15)
-    nivel_de_tarjeta = models.CharField(max_length=15)
+    no_de_tarjeta = models.CharField(max_length=15)
     usuario = models.ForeignKey(User)

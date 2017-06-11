@@ -28,7 +28,7 @@
       <label for="inputEmail" class="col-lg-2 control-label" required="True">Apellidos<span class="asteriskField">*</span></label>
       <div class="col-lg-10">
         {% csrf_token %}
-        <input type="text" class="form-control" id="inputApellidos" placeholder="Apellidos" name=apellidos>
+        <input type="text" class="form-control" id="inputApellidos" placeholder="Apellidos" name="apellidos">
       </div>
     </div>
 
@@ -38,27 +38,85 @@
         <input type="text" class="form-control" id="inputEmail" placeholder="Email" name="email">
       </div>
     </div>
+
+
+
     <div class="form-group">
-      <label for="inputPassword" class="col-lg-2 control-label" required="True">Contraseña<span class="asteriskField">*</span></label>
+      <label class="col-lg-2 control-label" required="True">Direccion<span class="asteriskField">*</span></label>
       <div class="col-lg-10">
         {% csrf_token %}
-        <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password">
-
+        <input type="text" class="form-control" id="direccion" placeholder="Direccion" name="direccion">
       </div>
     </div>
 
+    <div class="form-group" id="tarje">
+      <label class="col-lg-2 control-label" required="True">No. tarjeta<span class="asteriskField">*</span></label>
+      <div class="col-lg-10">
+        {% csrf_token %}
+        <input type="text" class="form-control" id="tarjeta" placeholder="Tarjeta" name="tarjeta">
+      </div>
+    </div>
 
     <div class="form-group" align="center">
       <div class="col-lg-10 col-lg-offset-2">
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button id="submit" type="submit" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </fieldset>
 </form>
 
-{% if mensaje %}
-<div align="center">
-  <h5>{{mensaje}}</h5>
-</div>
-{% endif %}
+
+
+
+<script type="text/javascript">
+$(document).on('click', '#submit', function(){
+  $("#error").remove();
+var ccNum = $("#tarjeta").val();
+var charCount = ccNum.length;
+var valid = isValid(ccNum, charCount);
+if (valid){
+return valid;
+}
+else{
+  $("#tarje").prepend('<div id="error" class="alert alert-danger" role="alert">El numero de tarjeta no es valido</div>');
+  return valid;
+}
+});
+
+function isValid(ccNum, charCount){
+var double = true;
+var numArr = [];
+var sumTotal = 0;
+for(i=0; i<charCount; i++){
+  var digit = parseInt(ccNum.charAt(i));
+
+  if(double){
+      digit = digit * 2;
+      digit = toSingle(digit);
+      double = false;
+  } else {
+      double = true;
+  }
+  numArr.push(digit);
+}
+
+for(i=0; i<numArr.length; i++){
+  sumTotal += numArr[i];
+}
+var diff = eval(sumTotal % 10);
+console.log(diff);
+console.log(diff == "0");
+return (diff == "0");
+}
+function toSingle(digit){
+if(digit > 9){
+    var tmp = digit.toString();
+    var d1 = parseInt(tmp.charAt(0));
+    var d2 = parseInt(tmp.charAt(1));
+    return (d1 + d2);
+} else {
+    return digit;
+}
+}
+</script>
 {% endblock %}

@@ -19,7 +19,7 @@
         <input type="password" class="form-control" id="inputPassword" placeholder="Password">
       </div>
     </div>
-    
+
     <div class="form-group">
       <label class="col-lg-2 control-label">Genero</label>
       <div class="col-lg-10">
@@ -55,7 +55,7 @@
     <div class="form-group">
       <label for="textArea" class="col-lg-2 control-label">Numero de Tarjeta</label>
       <div class="col-lg-10">
-        <textarea class="form-control" rows="3" id="textArea"></textarea>
+        <textarea class="form-control" rows="3" id="tarjeta"></textarea>
         <span class="help-block">Ingrese su numero de tarjeta.</span>
       </div>
     </div>
@@ -63,10 +63,48 @@
     <div class="form-group">
       <div class="col-lg-10 col-lg-offset-2">
         <button type="reset" class="btn btn-default">Cancel</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button id="submit" type="submit" class="btn btn-primary">Submit</button>
       </div>
     </div>
   </fieldset>
 </form>
+<script type="text/javascript">
+$(document).on('click', '#tarjeta', function(){
+  var num = $("#tarjeta").val().toString();
+  var charCount = num.length;
+  var valid = isValid(ccNum, charCount);
+  if (valid){
+    return valid
+  }
+  else{
+    console.log("no valido")
+  }
+});
 
+function isValid(ccNum, charCount){
+  var double = true;
+  var numArr = [];
+  var sumTotal = 0;
+  for(i=0; i<charCount; i++){
+      var digit = parseInt(ccNum.charAt(i));
+
+      if(double){
+          digit = digit * 2;
+          digit = toSingle(digit);
+          double = false;
+      } else {
+          double = true;
+      }
+      numArr.push(digit);
+  }
+
+  for(i=0; i<numArr.length; i++){
+      sumTotal += numArr[i];
+  }
+  var diff = eval(sumTotal % 10);
+  console.log(diff);
+  console.log(diff == "0");
+  return (diff == "0");
+}
+</script>
 </html>
